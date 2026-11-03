@@ -2,6 +2,8 @@
 
 Keyboard-only, styled scrollback for Rex, using a disposable Neovim overlay. Works independently of Pi, Claude Code, Codex, or the program running in your terminal.
 
+![Rex copy-mode demo: search earlier Pi output, select JSON, and copy it to the clipboard](docs/demo.gif)
+
 - **Ctrl+A, then Enter** opens the focused pane's scrollback.
 - Navigate/search with Vim keys; select with `v`, `V`, or `Ctrl+V`.
 - **Enter in visual mode** copies the selection to the system clipboard and returns to the source pane.
