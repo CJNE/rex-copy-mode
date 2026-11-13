@@ -90,6 +90,7 @@ function M.setup(user)
       if not window_id then error("Source pane is not in a window", 0) end
       local view = checked(rex.session.view{ session_id = ctx.session_id })
       local bounds, source_zoomed = common.pane_bounds(view, window_id, ctx.block_id)
+      local size = block_call(ctx, "size")
       local title = common.title(block_call(ctx, "title").title or "", source.block.label)
       local temporary_root = (os.getenv("TMPDIR") or "/tmp"):gsub("/+$", "")
       local directory = exec({ "mktemp", "-d", temporary_root .. "/rex-copy-mode-XXXXXXXX" }).stdout:gsub("%s+$", "")
@@ -115,6 +116,9 @@ function M.setup(user)
             flavor = "com.superlogical.terminal.shell", label = title,
             options = {
               shell = "none",
+              -- Seed the PTY before Neovim replays history. A later client resize
+              -- cannot undo 80-column wraps already stored in its scrollback.
+              size = { columns = size.columns, rows = size.rows },
               command = {
                 options.nvim, "-u", "NONE", "-i", "NONE", "-n", "--cmd", "set nomodeline",
                 "--cmd", "lua vim.g.rex_copy_mode_directory = " .. string.format("%q", directory),

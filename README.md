@@ -93,6 +93,7 @@ From the checkout:
 nvim --headless -u NONE -i NONE -l tests/unit.lua
 python3 tests/integration.py --stress
 python3 tests/geometry.py
+python3 tests/width.py
 python3 tests/copy_enter.py
 ```
 
