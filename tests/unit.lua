@@ -73,6 +73,7 @@ local function action_test(fail_layer, fail_capture, settings)
       equal(params.session_id, "session:test")
       equal(params.block_id, "block:test")
       if method == "title" then return { title = "Native test" } end
+      if method == "size" then return { columns = 220, rows = 40 } end
       if method == "format" then
         if fail_capture then return nil, "fixture capture failure" end
         offset = #parts[1]
@@ -90,6 +91,7 @@ local function action_test(fail_layer, fail_capture, settings)
       view = function() return { windows = {{ window_id = "w", layers = {{ layout = { block_id = "block:test", rect = { 0, 0, 1, 1 } } }} }} } end,
       new_layer = function(options)
         request = options
+        equal(options.layout.block.options.size, { columns = 220, rows = 40 })
         equal(vim.fn.readfile(directory .. "/capture.vt", "b"), { "first Åäö\r", "second 🎉\r", "last", "" })
         equal(vim.uv.fs_stat(directory).mode % 512, 448) -- 0700
         equal(vim.uv.fs_stat(directory .. "/capture.vt").mode % 512, 384) -- 0600
